@@ -13,9 +13,13 @@ window.onload = function() {
 
   // Function to create card objects
   function createCardObject(upperIcon, centerIcon, lowerIcon) {
+    // Convert "A" to "1" for sorting
+    const convertedCenterIcon =
+      centerIcon.textContent === "A" ? "1" : centerIcon.textContent;
+
     return {
       upperIcon: upperIcon.textContent,
-      centerIcon: centerIcon.textContent,
+      centerIcon: convertedCenterIcon,
       lowerIcon: lowerIcon.textContent
     };
   }
@@ -45,11 +49,11 @@ window.onload = function() {
         rowOriginal.appendChild(clonedCard);
       }
     }
-
     let card = document.querySelector(".card-frame");
     let upperIcon = document.querySelectorAll(".upper");
     let lowerIcon = document.querySelectorAll(".lower");
     let centerIcon = document.querySelectorAll(".center");
+
     //Function to create cards
     for (let i = 0; i < numberOfCards; i++) {
       // Random stuff for card colors and figures
@@ -74,9 +78,9 @@ window.onload = function() {
         centerIcon[i].innerHTML = "A";
       } else if (randomNumber == 10) {
         centerIcon[i].innerHTML = "J";
-      } else if (randomNumber == 10) {
+      } else if (randomNumber == 11) {
         centerIcon[i].innerHTML = "Q";
-      } else if (randomNumber == 10) {
+      } else if (randomNumber == 12) {
         centerIcon[i].innerHTML = "K";
       } else {
         centerIcon[i].innerHTML = randomNumber;
@@ -110,22 +114,40 @@ window.onload = function() {
       cardsArray.push(cardObject);
     }
 
-    let sortedCards = cardsArray.sort((a, b) =>
-      a.centerIcon.localeCompare(b.centerIcon)
-    );
+    // Add event listener for the sort button click event
+    let sortButton = document.querySelector(".sort-button");
+    sortButton.addEventListener("click", function() {
+      // Sort the cards based on center icon (considering "A" as "1")
+      let sortedCards = cardsArray.sort((a, b) =>
+        a.centerIcon.localeCompare(b.centerIcon)
+      );
 
-    let rowZero = document.querySelector(".row-zero");
+      let rowZero = document.querySelector(".row-zero");
 
-    for (let k = 0; k < sortedCards.length; k++) {
-      // Create a new div element
-      let newDivSort = document.createElement("div");
+      // Clear the content of rowZero before adding new sorted cards
+      //rowZero.innerHTML = "0";
 
-      // Set the class and innerHTML of the new div
-      newDivSort.className = "col-sm-1 number";
-      newDivSort.innerHTML = k;
+      for (let k = 0; k < sortedCards.length; k++) {
+        // Create a new div element for sorted card
+        let newDivSort = document.createElement("div");
 
-      // Append the new div to rowZero
-      rowZero.appendChild(newDivSort);
-    }
+        // Set the class and innerHTML of the new div
+        newDivSort.className = "col-sm-1 result separation";
+        newDivSort.innerHTML =
+          sortedCards[k].upperIcon +
+          " " +
+          sortedCards[k].centerIcon +
+          " " +
+          sortedCards[k].lowerIcon;
+        if (lowerIcons[k].style.color === "black") {
+          // Add classes using classList.add() method
+          newDivSort.classList.add("color-black");
+        } else {
+          newDivSort.classList.add("color-red");
+        }
+        // Append the new div to rowZero
+        rowZero.appendChild(newDivSort);
+      }
+    });
   });
 };

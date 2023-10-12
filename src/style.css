@@ -76,3 +76,28 @@ body {
   background-color: gold;
   color: rgb(155, 75, 0);
 }
+.result .separation {
+  flex: 0 0 80%; /* Prevent columns from shrinking */
+  max-width: 80%; /* Ensure columns don't exceed the container width */
+}
+
+/* Additional styles for the .result class */
+.result {
+  height: 100px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 5%;
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  font-family: "Times New Roman", Times, serif;
+}
+.color-black {
+  color: black;
+}
+.color-red {
+  color: red;
+}
